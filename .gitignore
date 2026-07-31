@@ -1,0 +1,22 @@
+# Python virtual environment
+venv/
+.venv/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.pytest_cache/
+
+# Environment files (sensitive credentials)
+.env
+.env.*
+
+# Database/local files
+*.db
+*.sqlite
+
+# Logs and OS files
+*.log
+.DS_Store
+.vscode/
+.idea/
