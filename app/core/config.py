@@ -37,5 +37,5 @@ PAYMENT_API_URL = os.getenv("PAYMENT_API_URL", "http://localhost:8000").strip()
 # WhitePass SSO Identity Provider variables
 WHITEPASS_CLIENT_ID = os.getenv("WHITEPASS_CLIENT_ID", "").strip()
 WHITEPASS_CLIENT_SECRET = os.getenv("WHITEPASS_CLIENT_SECRET", "").strip()
-WHITEPASS_TOKEN_URL = os.getenv("WHITEPASS_TOKEN_URL", "https://test.api.wytnet.com/oauth/token").strip()
+WHITEPASS_TOKEN_URL = os.getenv("WHITEPASS_TOKEN_URL", "http://localhost:8000/oauth/token").strip()
 
