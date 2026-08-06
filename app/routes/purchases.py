@@ -111,7 +111,7 @@ def get_purchase_history(
 @router.post("/whitenet-webhook")
 async def receive_whitenet_webhook(request: Request, db: Session = Depends(get_db)):
     body = await request.body()
-    signature = request.headers.get("X-WhiteNet-Signature", "")
+    signature = request.headers.get("X-WytNet-Signature") or request.headers.get("X-WhiteNet-Signature", "")
     
     logger.info("Received WhiteNet webhook request.")
 

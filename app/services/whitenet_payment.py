@@ -36,26 +36,32 @@ class WhiteNetPaymentService:
         try:
             url = f"{self.api_url}/api/payments/orders"
             headers = {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Client-ID": self.client_id,
+                "X-Client-Secret": self.client_secret,
+                "X-App-ID": str(self.app_id)
             }
             payload = {
-                "client_id": self.client_id,
-                "client_secret": self.client_secret,
                 "amount": amount,
                 "currency": currency,
                 "customer_id": customer_id,
                 "plan_id": str(plan_id),
+                "app_id": int(self.app_id) if self.app_id.isdigit() else self.app_id,
                 "metadata": metadata
             }
             
             resp = requests.post(url, json=payload, headers=headers, timeout=10)
-            if resp.status_code == 200:
+            if 200 <= resp.status_code < 300:
                 data = resp.json()
+                payment_url = data.get("payment_url")
+                checkout_token = data.get("checkout_token")
+                if not checkout_token and payment_url:
+                    checkout_token = payment_url.rstrip("/").split("/")[-1]
                 return {
                     "success": True,
-                    "whitenet_order_id": data.get("whitenet_order_id"),
-                    "checkout_token": data.get("checkout_token"),
-                    "payment_url": data.get("payment_url"),
+                    "whitenet_order_id": data.get("order_id") or data.get("whitenet_order_id"),
+                    "checkout_token": checkout_token,
+                    "payment_url": payment_url,
                     "mock_checkout": False
                 }
             else:
