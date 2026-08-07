@@ -47,8 +47,7 @@ class WhiteNetPaymentService:
                 "customer_id": customer_id,
                 "plan_id": str(plan_id),
                 "app_id": int(self.app_id) if self.app_id.isdigit() else self.app_id,
-                "client_id": self.client_id,
-                "client_secret": self.client_secret,
+               
                 "metadata": metadata
             }
             
