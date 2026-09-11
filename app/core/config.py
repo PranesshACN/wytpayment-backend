@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 # Load environmental variables from root .env
 current_dir = os.path.dirname(os.path.abspath(__file__))
 env_path = os.path.abspath(os.path.join(current_dir, "..", "..", ".env"))
-load_dotenv(env_path)
+load_dotenv(env_path, override=True)
 
 RAW_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test_saas.db")
 # Strip pgbouncer query param which causes psycopg2 DSN parser errors
