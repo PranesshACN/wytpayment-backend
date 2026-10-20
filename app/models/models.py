@@ -7,12 +7,14 @@ from app.db.session import Base
 class User(Base):
     __tablename__ = "users"
     
-    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    # Primary key is WytNet canonical stable user subject identifier: sub (format: wn_usr_<uuid>)
+    id = Column(String(255), primary_key=True)
+    sub = Column(String(255), nullable=True, index=True)
     sso_id = Column(String(255), nullable=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)
-
     name = Column(String(255), nullable=False)
-    hashed_password = Column(String(255), nullable=False)
+    phone = Column(String(50), nullable=True)
+    # Local password storage decoupled; authentication is delegated to WytNet Centralized IdP
     active_plan_id = Column(Integer, ForeignKey("subscription_plans.id"), nullable=True)
     subscription_status = Column(String(50), default="none")  # "none" | "active" | "expired"
     renewal_date = Column(DateTime, nullable=True)
@@ -34,7 +36,7 @@ class Purchase(Base):
     __tablename__ = "purchases"
     
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = Column(String(36), ForeignKey("users.id"), nullable=False)
+    user_id = Column(String(255), ForeignKey("users.id"), nullable=False)
     plan_id = Column(Integer, ForeignKey("subscription_plans.id"), nullable=False)
     whitenet_order_id = Column(String(255), unique=True, index=True, nullable=True)
     amount = Column(Float, nullable=False)

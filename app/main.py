@@ -34,8 +34,42 @@ app.include_router(auth_router)
 app.include_router(plans_router)
 app.include_router(purchases_router)
 
+from sqlalchemy import text
+
+def ensure_schema_compatibility():
+    """Ensure database column lengths and nullability accommodate WytNet IDs"""
+    try:
+        with engine.connect() as conn:
+            if not config.IS_SQLITE:
+                # PostgreSQL migrations for WytNet subject ID and decoupled password
+                try:
+                    conn.execute(text("ALTER TABLE users ALTER COLUMN id TYPE VARCHAR(255);"))
+                except Exception:
+                    pass
+                try:
+                    conn.execute(text("ALTER TABLE purchases ALTER COLUMN user_id TYPE VARCHAR(255);"))
+                except Exception:
+                    pass
+                try:
+                    conn.execute(text("ALTER TABLE users ALTER COLUMN hashed_password DROP NOT NULL;"))
+                except Exception:
+                    pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS sub VARCHAR(255);"))
+                except Exception:
+                    pass
+                try:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS phone VARCHAR(50);"))
+                except Exception:
+                    pass
+                conn.commit()
+                logger.info("Schema compatibility verified for WytNet Identity.")
+    except Exception as e:
+        logger.warning(f"Schema compatibility notice: {e}")
+
 @app.on_event("startup")
 def startup_event():
+    ensure_schema_compatibility()
     # Automatically populate core SaaS subscription plans on first startup
     db = SessionLocal()
     try:

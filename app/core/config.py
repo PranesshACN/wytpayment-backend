@@ -32,10 +32,20 @@ CORS_ORIGINS = [origin.strip() for origin in os.getenv("CORS_ORIGINS", "*").spli
 CLIENT_ID = os.getenv("CLIENT_ID", "").strip()
 CLIENT_SECRET = os.getenv("CLIENT_SECRET", "").strip()
 APP_ID = os.getenv("APP_ID", "").strip()
-PAYMENT_API_URL = os.getenv("PAYMENT_API_URL", "http://localhost:8000").strip()
+PAYMENT_API_URL = os.getenv("PAYMENT_API_URL", "https://api.wytnet.com").strip()
 
-# WhitePass SSO Identity Provider variables
-WHITEPASS_CLIENT_ID = os.getenv("WHITEPASS_CLIENT_ID", "").strip()
-WHITEPASS_CLIENT_SECRET = os.getenv("WHITEPASS_CLIENT_SECRET", "").strip()
-WHITEPASS_TOKEN_URL = os.getenv("WHITEPASS_TOKEN_URL", "https://api.wytnet.com/oauth/token").strip()
+# WytNet / WytPass Identity Provider variables
+WYTPASS_CLIENT_ID = os.getenv("WYTPASS_CLIENT_ID", os.getenv("WHITEPASS_CLIENT_ID", "wn_live_860820ebf3f7a303c101540e2ac80345")).strip()
+WYTPASS_CLIENT_SECRET = os.getenv("WYTPASS_CLIENT_SECRET", os.getenv("WHITEPASS_CLIENT_SECRET", "wn_secret_093268be2d5f6b3949a9c8652171ee7e539b0b8419142a73")).strip()
+WYTNET_ISSUER_URL = os.getenv("WYTNET_ISSUER_URL", "https://api.wytnet.com").strip().rstrip("/")
+WYTNET_AUTH_URL = os.getenv("WYTNET_AUTH_URL", "https://wytnet.com/oauth/authorize").strip()
+WYTNET_TOKEN_URL = os.getenv("WYTNET_TOKEN_URL", f"{WYTNET_ISSUER_URL}/oauth/token").strip()
+WYTNET_JWKS_URL = os.getenv("WYTNET_JWKS_URL", f"{WYTNET_ISSUER_URL}/.well-known/jwks.json").strip()
+WYTNET_OPENID_CONFIG_URL = os.getenv("WYTNET_OPENID_CONFIG_URL", f"{WYTNET_ISSUER_URL}/.well-known/openid-configuration").strip()
+WYTNET_REDIRECT_URI = os.getenv("WYTNET_REDIRECT_URI", "http://localhost:5173/api/auth/callback/whitenet").strip()
+
+# Backward-compatibility aliases
+WHITEPASS_CLIENT_ID = WYTPASS_CLIENT_ID
+WHITEPASS_CLIENT_SECRET = WYTPASS_CLIENT_SECRET
+WHITEPASS_TOKEN_URL = WYTNET_TOKEN_URL
 

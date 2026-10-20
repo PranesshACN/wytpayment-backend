@@ -6,16 +6,33 @@ class UserCreate(BaseModel):
     email: EmailStr
     name: str
     password: str
+    phone: Optional[str] = None
 
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+class ForgotPasswordInput(BaseModel):
+    email: EmailStr
+
+class ResetPasswordInput(BaseModel):
+    token: str
+    new_password: str
+    confirm_password: str
+
+class RefreshTokenInput(BaseModel):
+    refresh_token: Optional[str] = None
 
 class SSOLoginInput(BaseModel):
     email: EmailStr
     name: str
     sso_id: Optional[str] = None
     access_token: Optional[str] = None
+
+class SSOExchangeInput(BaseModel):
+    code: str
+    code_verifier: str
+    redirect_uri: str
 
 
 class PlanResponse(BaseModel):
@@ -30,9 +47,11 @@ class PlanResponse(BaseModel):
 
 class UserResponse(BaseModel):
     id: str
+    sub: Optional[str] = None
     sso_id: Optional[str] = None
     email: str
     name: str
+    phone: Optional[str] = None
 
     active_plan_id: Optional[int] = None
     subscription_status: str
@@ -45,12 +64,17 @@ class UserResponse(BaseModel):
 
 class TokenResponse(BaseModel):
     access_token: str
-    token_type: str
+    token_type: str = "Bearer"
+    expires_in: Optional[int] = 3600
+    refresh_token: Optional[str] = None
+    id_token: Optional[str] = None
     user: UserResponse
 
 class TokenPayload(BaseModel):
     sub: Optional[str] = None
     exp: Optional[int] = None
+    email: Optional[str] = None
+    name: Optional[str] = None
 
 class PurchaseResponse(BaseModel):
     id: str
