@@ -35,8 +35,8 @@ APP_ID = os.getenv("APP_ID", "").strip()
 PAYMENT_API_URL = os.getenv("PAYMENT_API_URL", "https://api.wytnet.com").strip()
 
 # WytNet / WytPass Identity Provider variables
-WYTPASS_CLIENT_ID = os.getenv("WYTPASS_CLIENT_ID", os.getenv("WHITEPASS_CLIENT_ID", "wn_live_860820ebf3f7a303c101540e2ac80345")).strip()
-WYTPASS_CLIENT_SECRET = os.getenv("WYTPASS_CLIENT_SECRET", os.getenv("WHITEPASS_CLIENT_SECRET", "wn_secret_093268be2d5f6b3949a9c8652171ee7e539b0b8419142a73")).strip()
+WYTPASS_CLIENT_ID = os.getenv("WYTPASS_CLIENT_ID", os.getenv("WHITEPASS_CLIENT_ID", "wn_live_c7f8ce9b13ee5a8f7a3d9222fce39fd0")).strip()
+WYTPASS_CLIENT_SECRET = os.getenv("WYTPASS_CLIENT_SECRET", os.getenv("WHITEPASS_CLIENT_SECRET", "wn_secret_abe21f6bf5db981f57799e7f015fd4bd33d60fd55a7a3ee1")).strip()
 WYTNET_ISSUER_URL = os.getenv("WYTNET_ISSUER_URL", "https://api.wytnet.com").strip().rstrip("/")
 WYTNET_AUTH_URL = os.getenv("WYTNET_AUTH_URL", "https://wytnet.com/oauth/authorize").strip()
 WYTNET_TOKEN_URL = os.getenv("WYTNET_TOKEN_URL", f"{WYTNET_ISSUER_URL}/oauth/token").strip()
